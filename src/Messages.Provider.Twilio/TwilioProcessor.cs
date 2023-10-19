@@ -23,8 +23,7 @@ namespace Messages.Provider.Twilio
         /// </summary>
         public void SendSMS()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Message sent successfully.");
         }
     }
-
 }

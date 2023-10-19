@@ -6,9 +6,18 @@ namespace Messages.Provider.Twilio
     internal class TwilioOptions
     {
         /// <summary>
-        /// Gets or sets the base URL for Twilio configuration.
+        /// Gets or sets the AccountSID for Twilio configuration.
         /// </summary>
-        public required string BaseURL { get; set; }
-    }
+        public required string AccountSid { get; set; }
 
+        /// <summary>
+        /// Gets or sets the authentication token for Twilio configuration.
+        /// </summary>
+        public required string AuthToken { get; set; }
+
+        /// <summary>
+        /// Gets or sets twilio phone number.
+        /// </summary>
+        public required string PhoneNumber { get; set; }
+    }
 }

@@ -6,7 +6,7 @@ namespace Messages.Provider.Twilio
     /// <summary>
     /// Represents a provider for creating Twilio message sending processors.
     /// </summary>
-    internal class TwilioProcessorProvider : IMessageProcessorProvider
+    public class TwilioProcessorProvider : IMessageProcessorProvider
     {
         /// <summary>
         /// Gets or sets the message sending provider as Twilio.
@@ -19,7 +19,7 @@ namespace Messages.Provider.Twilio
         /// Initializes a new instance of the <see cref="TwilioProcessorProvider"/> class.
         /// </summary>
         /// <param name="serviceProvider">The service provider used for dependency injection.</param>
-        internal TwilioProcessorProvider(IServiceProvider serviceProvider)
+        public TwilioProcessorProvider(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
