@@ -1,22 +1,21 @@
 using Messages.Core;
-using Messages.Tests;
-using Xunit.Abstractions;
-using Xunit.Microsoft.DependencyInjection.Abstracts;
 
 namespace Messages.Provider.Twilio.Tests;
 
 /// <summary>
 /// This class tests message func using twilio
 /// </summary>
-public class TwilioTests : TestBed<MessagesFixture>
+public class TwilioTests
 {
+    private readonly IMessageProcessorFactory _factory;
+
     /// <summary>
-    /// 
+    /// Constructor that takes ImessageProcessorFactory
     /// </summary>
-    /// <param name="testOutputHelper"></param>
-    /// <param name="fixture"></param>
-    public TwilioTests(ITestOutputHelper testOutputHelper, MessagesFixture fixture) : base(testOutputHelper, fixture)
+    /// <param name="factory"></param>
+    public TwilioTests(IMessageProcessorFactory factory)
     {
+        _factory = factory;
     }
 
     /// <summary>
@@ -25,8 +24,7 @@ public class TwilioTests : TestBed<MessagesFixture>
     [Fact]
     public void SendSMS_Test()
     {
-        IMessageProcessorFactory? factory = _fixture.GetService<IMessageProcessorFactory>(_testOutputHelper);
-        IMessageProcessor? messageProcessor = factory?.Create(MessageProcessingProvider.Twilio);
+        IMessageProcessor? messageProcessor = _factory.Create(MessageProcessingProvider.Twilio);
         messageProcessor?.SendSMS();
     }
 }

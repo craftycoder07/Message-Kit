@@ -3,7 +3,7 @@ namespace Messages.Provider.Twilio
     /// <summary>
     /// Represents options related to Twilio configuration.
     /// </summary>
-    internal class TwilioOptions
+    public class TwilioOptions
     {
         /// <summary>
         /// Gets or sets the AccountSID for Twilio configuration.

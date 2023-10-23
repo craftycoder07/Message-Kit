@@ -1,4 +1,7 @@
 using Messages.Core;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace Messages.Provider.Twilio
 {
@@ -23,7 +26,15 @@ namespace Messages.Provider.Twilio
         /// </summary>
         public void SendSMS()
         {
-            Console.WriteLine("Message sent successfully.");
+            TwilioClient.Init(_twilioOptions.AccountSid, _twilioOptions.AuthToken);
+
+            CreateMessageOptions messageOptions = new CreateMessageOptions(
+              new PhoneNumber("+15519984026"));
+            messageOptions.From = new PhoneNumber(_twilioOptions.PhoneNumber);
+            messageOptions.Body = "Hi";
+
+            MessageResource message = MessageResource.Create(messageOptions);
+            Console.WriteLine(message.Body);
         }
     }
 }
