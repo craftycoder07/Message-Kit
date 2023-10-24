@@ -26,7 +26,6 @@ namespace Messages.Tests
         /// <param name="context"></param>
         public void ConfigureServices(IServiceCollection services, HostBuilderContext context)
         {
-            services.Configure<TwilioOptions>(context.Configuration.GetSection("TwilioOptions"));
             services.AddTwilioMessageService(context.Configuration);
         }
     }

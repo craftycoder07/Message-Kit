@@ -1,6 +1,6 @@
 using Messages.Core;
 
-namespace Messages.Provider.Twilio.Tests;
+namespace Messages.Tests.Twilio;
 
 /// <summary>
 /// This class tests message func using twilio
