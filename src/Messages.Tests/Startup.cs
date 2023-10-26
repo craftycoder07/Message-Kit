@@ -16,7 +16,10 @@ namespace Messages.Tests
         /// <param name="hostBuilder"></param>
         public void ConfigureHost(IHostBuilder hostBuilder)
         {
-            hostBuilder.ConfigureAppConfiguration(configBuilder => configBuilder.AddEnvironmentVariables(prefix: "Twilio_"));
+            //hostBuilder.ConfigureAppConfiguration(configBuilder => configBuilder.AddEnvironmentVariables(prefix: "Twilio_"));
+            hostBuilder.ConfigureAppConfiguration(configBuilder => configBuilder.SetBasePath(Directory.GetCurrentDirectory())
+                                                                                .AddJsonFile("appsettings.json", true)
+                                                                                .AddEnvironmentVariables(prefix: "Twilio_"));
         }
 
         /// <summary>
