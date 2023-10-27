@@ -1,9 +1,24 @@
 # Message-Kit
 
-1) Add Environment Variables starting with 'Twilio_'.
-2) Configure your app to fetch environment variables using AddEnvironmentVariables(prefix: "Twilio_")
-3) Call extension method AddTwilioMessageService() to configure twilio services.
-4) Inject 'IMessageProcessorFactory' wherever you want to use twilio service.
-5) Create 'IMessageProcessor' from 'IMessageProcessorFactory'. Then use 'IMessageProcessor' to send message.
-    IMessageProcessor? messageProcessor = _factory.Create(MessageProcessingProvider.Twilio);
-    messageProcessor?.SendSMS();
+## How to run test cases for twilio
+
+1) Test cases can be run using appsettings.json or environment variables.
+2) appsettings.json already has settings option. Just change values with your respective values from twilio.
+
+```json
+{
+  "TwilioOptions": {
+    "AccountSid": "Your Account Id",
+    "AuthToken": "Your Auth Token",
+    "PhoneNumber": "Twilio Phone Number to send message from"
+  }
+}
+```
+
+3) To use environment variables make sure you add environment variables in your computer as follows
+
+``` bash
+export Twilio_TwilioOptions__AccountSid="Your Account Id"
+export Twilio_TwilioOptions__AuthToken="Your Auth Token"
+export Twilio_TwilioOptions__PhoneNumber="Twilio Phone Number to send message from"
+```
