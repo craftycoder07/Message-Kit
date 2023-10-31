@@ -14,8 +14,8 @@ namespace Messages.Provider.Twilio
         /// Adds Twilio related services to the specified <paramref name="services"/> collection using the provided Twilio configuration.
         /// </summary>
         /// <param name="services">The service collection to which Twilio services will be added.</param>
-        /// <param name="twilioConfigurationSection">The configuration section containing Twilio-related settings.</param>
-        public static void AddTwilioMessageService(this IServiceCollection services, IConfiguration twilioConfigurationSection)
+        /// <param name="configuration">The configuration section containing Twilio-related settings.</param>
+        public static void AddTwilioMessageService(this IServiceCollection services, IConfiguration configuration)
         {
             // Adds messaging-related services using the base extension method.
             services.AddMessageServices();
@@ -24,7 +24,14 @@ namespace Messages.Provider.Twilio
             services.AddTransient<IMessageProcessorProvider, TwilioProcessorProvider>();
 
             // Configures TwilioOptions using the provided configuration section.
-            services.Configure<TwilioOptions>(twilioConfigurationSection.GetSection("TwilioOptions"));
+            // Check if the configuration section for TwilioOptions exists.
+            IConfigurationSection twilioOptionsSection = configuration.GetSection(nameof(TwilioOptions));
+            if (twilioOptionsSection == null)
+            {
+                throw new InvalidOperationException($"Configuration section '{nameof(TwilioOptions)}' is missing.");
+            }
+
+            services.Configure<TwilioOptions>(twilioOptionsSection);
 
             // Adds a singleton instance of TwilioOptions using the value resolved from IOptions<TwilioOptions>.
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<TwilioOptions>>().Value);

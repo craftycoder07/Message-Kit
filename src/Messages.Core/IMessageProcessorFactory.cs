@@ -6,10 +6,10 @@ namespace Messages.Core
     public interface IMessageProcessorFactory
     {
         /// <summary>
-        /// Creates an instance of a message processor based on the message processing provider.
+        /// Creates an instance of a message processor based on the specified message processing provider.
         /// </summary>
-        /// <param name="messageProcessingProvider">The message processing provider to use for creating the message processor.</param>
-        /// <returns>An instance of <see cref="IMessageProcessor"/> representing the created message processor.</returns>
-        public IMessageProcessor Create(MessageProcessingProvider messageProcessingProvider);
+        /// <param name="messageProcessingProvider">The message processing provider that determines the type of message processor to create.</param>
+        /// <returns>An instance of <see cref="IMessageProcessor"/> representing the created message processor. Returns null if no matching provider is found.</returns>
+        public IMessageProcessor? Create(MessageProcessingProvider messageProcessingProvider);
     }
 }
