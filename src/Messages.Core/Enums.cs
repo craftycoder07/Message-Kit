@@ -6,7 +6,7 @@ namespace Messages.Core
     public enum MessageProcessingProvider : byte
     {
         /// <summary>
-        /// Represents the Stripe message processing provider.
+        /// Represents the Twilio message processing provider.
         /// </summary>
         Twilio = 1
     }
