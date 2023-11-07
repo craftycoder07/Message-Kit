@@ -19,11 +19,11 @@ namespace Messages.Core
         /// <summary>
         /// Creates an instance of a message processor based on the specified message processing provider.
         /// </summary>
-        /// <param name="messageProcessingProvider">The message processing provider that determines the type of message processor to create.</param>
+        /// <param name="messageProcessor">The message processing provider that determines the type of message processor to create.</param>
         /// <returns>An instance of <see cref="IMessageProcessor"/> representing the created message processor. Returns null if no matching provider is found.</returns>
-        public IMessageProcessor? Create(MessageProcessingProvider messageProcessingProvider)
+        public IMessageProcessor? Create(MessageProcessor messageProcessor)
         {
-            IMessageProcessorProvider? provider = _messageProcessorProviders.FirstOrDefault(x => x.MessageProcessingProvider == messageProcessingProvider);
+            IMessageProcessorProvider? provider = _messageProcessorProviders.FirstOrDefault(x => x.MessageProcessor == messageProcessor);
             return provider?.CreateMessageProcessor();
         }
     }

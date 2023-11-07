@@ -6,9 +6,9 @@ namespace Messages.Core
     public interface IMessageProcessorProvider
     {
         /// <summary>
-        /// Gets or sets the message processing provider associated with this processor provider.
+        /// Gets or sets the message processor associated with this processor provider.
         /// </summary>
-        MessageProcessingProvider MessageProcessingProvider { get; set; }
+        MessageProcessor MessageProcessor { get; set; }
 
         /// <summary>
         /// Creates an instance of a message processor using the provided service provider.

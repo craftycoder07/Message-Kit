@@ -9,9 +9,9 @@ namespace Messages.Provider.Twilio
     public class TwilioProcessorProvider : IMessageProcessorProvider
     {
         /// <summary>
-        /// Gets or sets the message sending provider as Twilio.
+        /// Gets or sets the message processor as Twilio.
         /// </summary>
-        public MessageProcessingProvider MessageProcessingProvider { get; set; } = MessageProcessingProvider.Twilio;
+        public MessageProcessor MessageProcessor { get; set; } = MessageProcessor.Twilio;
 
         private readonly IServiceProvider _serviceProvider;
 

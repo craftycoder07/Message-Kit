@@ -24,7 +24,7 @@ public class TwilioTests
     [Fact]
     public void SendSMS_Test()
     {
-        IMessageProcessor? messageProcessor = _factory.Create(MessageProcessingProvider.Twilio);
+        IMessageProcessor? messageProcessor = _factory.Create(MessageProcessor.Twilio);
         messageProcessor?.SendSMS();
     }
 }

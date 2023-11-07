@@ -3,7 +3,7 @@ namespace Messages.Core
     /// <summary>
     /// Supported message processing providers.
     /// </summary>
-    public enum MessageProcessingProvider : byte
+    public enum MessageProcessor : byte
     {
         /// <summary>
         /// Represents the Twilio message processing provider.
