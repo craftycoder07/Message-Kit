@@ -7,7 +7,9 @@ namespace Messages.Core
     {
         /// <summary>
         /// Sends SMS.
-        /// </summary>        
+        /// </summary>
+        /// <param name="toPhoneNumber">The destination phone number.</param>
+        /// <param name="messageBody">The body of the SMS.</param>
         public void SendSMS(string toPhoneNumber, string messageBody);
     }
 }
