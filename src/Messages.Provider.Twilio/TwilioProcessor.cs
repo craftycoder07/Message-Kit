@@ -19,22 +19,22 @@ namespace Messages.Provider.Twilio
         public TwilioProcessor(TwilioOptions twilioOptions)
         {
             _twilioOptions = twilioOptions;
+            TwilioClient.Init(_twilioOptions.AccountSid, _twilioOptions.AuthToken);
         }
 
         /// <summary>
         /// Sends SMS using the configured Twilio options.
         /// </summary>
-        public void SendSMS()
+        public void SendSMS(string toPhoneNumber, string messageBody)
         {
-            TwilioClient.Init(_twilioOptions.AccountSid, _twilioOptions.AuthToken);
-
-            CreateMessageOptions messageOptions = new CreateMessageOptions(
-              new PhoneNumber("+15519984026"));
-            messageOptions.From = new PhoneNumber(_twilioOptions.PhoneNumber);
-            messageOptions.Body = "Hi";
+            PhoneNumber fromPhoneNumber = new PhoneNumber(_twilioOptions.PhoneNumber);
+            CreateMessageOptions messageOptions = new CreateMessageOptions(new PhoneNumber(toPhoneNumber))
+            {
+                From = fromPhoneNumber,
+                Body = messageBody
+            };
 
             MessageResource message = MessageResource.Create(messageOptions);
-            Console.WriteLine(message.Body);
         }
     }
 }

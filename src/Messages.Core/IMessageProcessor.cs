@@ -8,6 +8,6 @@ namespace Messages.Core
         /// <summary>
         /// Sends SMS.
         /// </summary>        
-        public void SendSMS();
+        public void SendSMS(string toPhoneNumber, string messageBody);
     }
 }

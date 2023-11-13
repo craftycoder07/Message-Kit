@@ -25,6 +25,6 @@ public class TwilioTests
     public void SendSMS_Test()
     {
         IMessageProcessor? messageProcessor = _factory.Create(MessageProcessor.Twilio);
-        messageProcessor?.SendSMS();
+        messageProcessor?.SendSMS("+15519984026", "Hello World");
     }
 }
