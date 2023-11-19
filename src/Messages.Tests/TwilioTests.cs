@@ -1,4 +1,5 @@
 using Messages.Core;
+using Messages.Core.Model;
 
 namespace Messages.Tests.Twilio;
 

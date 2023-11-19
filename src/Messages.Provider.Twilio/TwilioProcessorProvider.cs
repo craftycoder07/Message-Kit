@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Messages.Core;
+using Messages.Core.Model;
 
 namespace Messages.Provider.Twilio
 {
@@ -34,5 +35,4 @@ namespace Messages.Provider.Twilio
             return _serviceProvider.GetRequiredService<TwilioProcessor>();
         }
     }
-
 }

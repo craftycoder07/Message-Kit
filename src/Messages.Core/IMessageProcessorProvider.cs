@@ -1,3 +1,5 @@
+using Messages.Core.Model;
+
 namespace Messages.Core
 {
     /// <summary>

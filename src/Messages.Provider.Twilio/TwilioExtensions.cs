@@ -23,6 +23,15 @@ namespace Messages.Provider.Twilio
             // Adds a transient instance of IMessageProcessorProvider using TwilioProcessorProvider implementation.
             services.AddTransient<IMessageProcessorProvider, TwilioProcessorProvider>();
 
+            //Add twilio configuration
+            services.AddTwilioConfiguration(configuration);
+
+            // Adds a transient instance of TwilioProcessor.
+            services.AddTransient<TwilioProcessor>();
+        }
+
+        private static void AddTwilioConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
             // Configures TwilioOptions using the provided configuration section.
             // Check if the configuration section for TwilioOptions exists.
             IConfigurationSection twilioOptionsSection = configuration.GetSection(nameof(TwilioOptions));
@@ -35,9 +44,6 @@ namespace Messages.Provider.Twilio
 
             // Adds a singleton instance of TwilioOptions using the value resolved from IOptions<TwilioOptions>.
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<TwilioOptions>>().Value);
-
-            // Adds a transient instance of TwilioProcessor.
-            services.AddTransient<TwilioProcessor>();
         }
     }
 }

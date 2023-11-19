@@ -1,7 +1,8 @@
 using Messages.Core;
+using Messages.Core.Exceptions;
+using Messages.Core.Model;
 using Microsoft.Extensions.Logging;
 using Twilio;
-using Twilio.Exceptions;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
@@ -25,44 +26,34 @@ namespace Messages.Provider.Twilio
             _twilioOptions = twilioOptions;
             _logger = logger;
 
-            try
-            {
-                TwilioClient.Init(_twilioOptions.AccountSid, _twilioOptions.AuthToken);
-                _logger.LogInformation("Twilio client initialized successfully.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to initialize Twilio client.");
-                throw;
-            }
+            TwilioClient.Init(_twilioOptions.AccountSid, _twilioOptions.AuthToken);
         }
 
-        /// <summary>
+        /// <summary>                 
         /// Sends SMS using the configured Twilio options.
         /// </summary>
         public void SendSMS(string toPhoneNumber, string messageBody)
         {
+            PhoneNumber fromPhoneNumber = new PhoneNumber(_twilioOptions.PhoneNumber);
+            CreateMessageOptions messageOptions = new CreateMessageOptions(new PhoneNumber(toPhoneNumber))
+            {
+                From = fromPhoneNumber,
+                Body = messageBody
+            };
+
+            MessageResource? message = null;
             try
             {
-                PhoneNumber fromPhoneNumber = new PhoneNumber(_twilioOptions.PhoneNumber);
-                CreateMessageOptions messageOptions = new CreateMessageOptions(new PhoneNumber(toPhoneNumber))
-                {
-                    From = fromPhoneNumber,
-                    Body = messageBody
-                };
-
-                MessageResource message = MessageResource.Create(messageOptions);
-                _logger.LogInformation("SMS sent successfully.");
-            }
-            catch (ApiException ex)
-            {
-                _logger.LogError(ex, "Twilio API Exception while sending SMS.");
-                throw;
+                message = MessageResource.Create(messageOptions);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred while sending SMS.");
-                throw;
+                throw new MessageProcessorApiException("Error occurred while sending message using Twilio", MessageProcessor.Twilio, ex);
+            }
+
+            if (message?.Status == MessageResource.StatusEnum.Failed || message?.Status == MessageResource.StatusEnum.Canceled)
+            {
+                throw new MessageSendException($"Error Status -> {message.Status}, Error Message -> {message.ErrorMessage}", MessageProcessor.Twilio);
             }
         }
     }
