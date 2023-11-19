@@ -1,7 +1,9 @@
+using Messages.Core.Exceptions;
+
 namespace Messages.Core
 {
     /// <summary>
-    /// Represents a type used message transation
+    /// Represents a type used to send a message.
     /// </summary>
     public interface IMessageProcessor
     {
@@ -10,6 +12,8 @@ namespace Messages.Core
         /// </summary>
         /// <param name="toPhoneNumber">The destination phone number.</param>
         /// <param name="messageBody">The body of the SMS.</param>
+        /// <exception cref="MessageSendException">Thrown when Message Processor API request is successful but error occurred during the sending of the SMS.</exception>
+        /// <exception cref="MessageProcessorApiException">Thrown when Message Processor API request is NOT successfult during the sending of the SMS.</exception>
         public void SendSMS(string toPhoneNumber, string messageBody);
     }
 }
