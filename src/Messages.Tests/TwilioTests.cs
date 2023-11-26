@@ -1,5 +1,6 @@
 using Messages.Core;
 using Messages.Core.Model;
+using Twilio.Exceptions;
 
 namespace Messages.Tests.Twilio;
 
@@ -9,6 +10,7 @@ namespace Messages.Tests.Twilio;
 public class TwilioTests
 {
     private readonly IMessageProcessorFactory _factory;
+    private readonly MessageProcessor _messageProcessor = MessageProcessor.Twilio;
 
     /// <summary>
     /// Constructor that takes ImessageProcessorFactory
@@ -20,12 +22,36 @@ public class TwilioTests
     }
 
     /// <summary>
-    /// Test sms sending.
+    /// Test successful sms sending.
     /// </summary>
-    [Fact]
-    public void SendSMS_Test()
+    [Theory]
+    [InlineData("+15519984026", "Hello World")]
+    public void SendSMS_Successful(string toNumber, string messageBody)
     {
-        IMessageProcessor? messageProcessor = _factory.Create(MessageProcessor.Twilio);
-        messageProcessor?.SendSMS("+15519984026", "Hello World");
+        //Arrange
+        IMessageProcessor? messageProcessor = _factory.Create(_messageProcessor);
+
+        //Act
+        messageProcessor?.SendSMS(toNumber, messageBody);
+
+        //Assert
+        // If no error, then automatically successful.
+    }
+
+    /// <summary>
+    /// Test unsuccessful sms sending.
+    /// </summary>
+    [Theory]
+    [InlineData("", "Hello World")]
+    [InlineData("+12345678912", "Hello World")]
+    [InlineData("+15519984026", "")]
+    [InlineData("+15519984026", null)]
+    public void SendSMS_UnSuccessful(string toNumber, string messageBody)
+    {
+        //Arrange
+        IMessageProcessor? messageProcessor = _factory.Create(_messageProcessor);
+
+        //Act & Assert
+        Assert.Throws<ApiException>(() => messageProcessor?.SendSMS(toNumber, messageBody));
     }
 }

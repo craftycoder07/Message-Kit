@@ -42,14 +42,8 @@ namespace Messages.Provider.Twilio
             };
 
             MessageResource? message = null;
-            try
-            {
-                message = MessageResource.Create(messageOptions);
-            }
-            catch (Exception ex)
-            {
-                throw new MessageProcessorApiException("Error occurred while sending message using Twilio", MessageProcessor.Twilio, ex);
-            }
+
+            message = MessageResource.Create(messageOptions);
 
             if (message?.Status == MessageResource.StatusEnum.Failed || message?.Status == MessageResource.StatusEnum.Canceled)
             {
