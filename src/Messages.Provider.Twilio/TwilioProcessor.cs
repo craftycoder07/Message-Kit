@@ -1,7 +1,5 @@
 using Messages.Core;
-using Messages.Core.Exceptions;
 using Messages.Core.Model;
-using Microsoft.Extensions.Logging;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
@@ -14,17 +12,17 @@ namespace Messages.Provider.Twilio
     internal class TwilioProcessor : IMessageProcessor
     {
         private readonly TwilioOptions _twilioOptions;
-        private readonly ILogger<TwilioProcessor> _logger;
+        private readonly MessageResourceFactory _messageResourceFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TwilioProcessor"/> class with the specified Twilio options.
         /// </summary>
         /// <param name="twilioOptions">The Twilio options used for configuration.</param>
-        /// <param name="logger">The logger.</param>
-        public TwilioProcessor(TwilioOptions twilioOptions, ILogger<TwilioProcessor> logger)
+        /// <param name="messageResourceFactory">The logger.</param>
+        public TwilioProcessor(TwilioOptions twilioOptions, MessageResourceFactory messageResourceFactory)
         {
             _twilioOptions = twilioOptions;
-            _logger = logger;
+            _messageResourceFactory = messageResourceFactory;
 
             TwilioClient.Init(_twilioOptions.AccountSid, _twilioOptions.AuthToken);
         }
@@ -32,7 +30,7 @@ namespace Messages.Provider.Twilio
         /// <summary>                 
         /// Sends SMS using the configured Twilio options.
         /// </summary>
-        public void SendSMS(string toPhoneNumber, string messageBody)
+        public SendMessageResult SendSMS(string toPhoneNumber, string messageBody)
         {
             PhoneNumber fromPhoneNumber = new PhoneNumber(_twilioOptions.PhoneNumber);
             CreateMessageOptions messageOptions = new CreateMessageOptions(new PhoneNumber(toPhoneNumber))
@@ -41,14 +39,22 @@ namespace Messages.Provider.Twilio
                 Body = messageBody
             };
 
-            MessageResource? message = null;
+            MessageResource message = _messageResourceFactory.Create(messageOptions);
 
-            message = MessageResource.Create(messageOptions);
+            SendMessageResult sendMessageResult = new SendMessageResult();
 
-            if (message?.Status == MessageResource.StatusEnum.Failed || message?.Status == MessageResource.StatusEnum.Canceled)
+            if (message.Status == MessageResource.StatusEnum.Failed ||
+                message.Status == MessageResource.StatusEnum.Canceled)
             {
-                throw new MessageSendException($"Error Status -> {message.Status}, Error Message -> {message.ErrorMessage}", MessageProcessor.Twilio);
+                sendMessageResult.IsSuccessful = false;
+                sendMessageResult.ErrorMessage = message.ErrorMessage;
             }
+            else
+            {
+                sendMessageResult.IsSuccessful = true;
+            }
+
+            return sendMessageResult;
         }
     }
 }

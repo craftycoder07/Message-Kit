@@ -1,4 +1,5 @@
 using Messages.Core.Exceptions;
+using Messages.Core.Model;
 
 namespace Messages.Core
 {
@@ -14,6 +15,6 @@ namespace Messages.Core
         /// <param name="messageBody">The body of the SMS.</param>
         /// <exception cref="MessageSendException">Thrown when Message Processor API request is successful but error occurred during the sending of the SMS.</exception>
         /// <exception cref="MessageProcessorApiException">Thrown when Message Processor API request is NOT successfult during the sending of the SMS.</exception>
-        public void SendSMS(string toPhoneNumber, string messageBody);
+        public SendMessageResult SendSMS(string toPhoneNumber, string messageBody);
     }
 }

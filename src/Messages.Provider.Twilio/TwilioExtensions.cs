@@ -28,6 +28,9 @@ namespace Messages.Provider.Twilio
 
             // Adds a transient instance of TwilioProcessor.
             services.AddTransient<TwilioProcessor>();
+
+            // Adds a transient instance of TwilioProcessor.
+            services.AddTransient<MessageResourceFactory>();
         }
 
         private static void AddTwilioConfiguration(this IServiceCollection services, IConfiguration configuration)
