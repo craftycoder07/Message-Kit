@@ -27,9 +27,12 @@ namespace Messages.Provider.Twilio
             TwilioClient.Init(_twilioOptions.AccountSid, _twilioOptions.AuthToken);
         }
 
-        /// <summary>                 
-        /// Sends SMS using the configured Twilio options.
+        /// <summary>
+        /// Sends an SMS message using the configured Twilio options.
         /// </summary>
+        /// <param name="toPhoneNumber">The destination phone number.</param>
+        /// <param name="messageBody">The body of the SMS message.</param>
+        /// <returns>A result indicating the success or failure of the SMS sending operation.</returns>
         public SendMessageResult SendSMS(string toPhoneNumber, string messageBody)
         {
             PhoneNumber fromPhoneNumber = new PhoneNumber(_twilioOptions.PhoneNumber);

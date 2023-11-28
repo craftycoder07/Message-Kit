@@ -29,7 +29,7 @@ namespace Messages.Provider.Twilio
             // Adds a transient instance of TwilioProcessor.
             services.AddTransient<TwilioProcessor>();
 
-            // Adds a transient instance of TwilioProcessor.
+            // Adds a transient instance of MessageResourceFactory.
             services.AddTransient<MessageResourceFactory>();
         }
 
