@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Messages.Provider.Twilio\Messages.Provider.Twilio.csproj" />
+    <ProjectReference Include="..\src\Messages.Provider.Twilio\Messages.Provider.Twilio.csproj" />
   </ItemGroup>
 
   <ItemGroup>
