@@ -13,8 +13,8 @@ namespace Messages.Core
         /// <param name="services">The service collection to which message services will be added.</param>
         public static void AddMessageServices(this IServiceCollection services)
         {
-            // Adds a singleton instance of IPaymentProcessorFactory, using the PaymentProcessorFactory implementation.
-            services.AddSingleton<IMessageProcessorFactory, MessageProcessorFactory>();
+            // Adds a singleton instance of MessageProcessorFactory.
+            services.AddSingleton<MessageProcessorFactory>();
         }
     }
 }

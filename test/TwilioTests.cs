@@ -9,14 +9,14 @@ namespace Messages.Tests.Twilio;
 /// </summary>
 public class TwilioTests
 {
-    private readonly IMessageProcessorFactory _factory;
+    private readonly MessageProcessorFactory _factory;
     private readonly MessageProcessor _messageProcessor = MessageProcessor.Twilio;
 
     /// <summary>
     /// Constructor that takes ImessageProcessorFactory
     /// </summary>
     /// <param name="factory"></param>
-    public TwilioTests(IMessageProcessorFactory factory)
+    public TwilioTests(MessageProcessorFactory factory)
     {
         _factory = factory;
     }

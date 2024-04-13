@@ -5,7 +5,7 @@ namespace Messages.Core
     /// <summary>
     /// Represents a factory for creating message processors based on different message processor providers.
     /// </summary>
-    public sealed class MessageProcessorFactory : IMessageProcessorFactory
+    public sealed class MessageProcessorFactory
     {
         private readonly IEnumerable<IMessageProcessorProvider> _messageProcessorProviders;
 
