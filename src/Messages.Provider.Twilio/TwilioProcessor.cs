@@ -1,4 +1,5 @@
 using Messages.Core;
+using Messages.Core.Exceptions;
 using Messages.Core.Model;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
@@ -29,8 +30,12 @@ namespace Messages.Provider.Twilio
         /// <param name="toPhoneNumber">The destination phone number.</param>
         /// <param name="messageBody">The body of the SMS message.</param>
         /// <returns>A result indicating the success or failure of the SMS sending operation.</returns>
+        /// <exception cref="MessageSendException">Thrown when Message Processor API request is successful but error occurred during the sending of the SMS.</exception>
+        /// <exception cref="MessageProcessorApiException">Thrown when Message Processor API request is NOT successfult during the sending of the SMS.</exception>
         public SendMessageResult SendSMS(string toPhoneNumber, string messageBody)
         {
+            ValidateTwilioParameters(toPhoneNumber, _twilioOptions.PhoneNumber, messageBody);
+
             PhoneNumber fromPhoneNumber = new PhoneNumber(_twilioOptions.PhoneNumber);
             CreateMessageOptions messageOptions = new CreateMessageOptions(new PhoneNumber(toPhoneNumber))
             {
@@ -38,7 +43,15 @@ namespace Messages.Provider.Twilio
                 Body = messageBody
             };
 
-            MessageResource message = MessageResource.Create(messageOptions);
+            MessageResource message;
+            try
+            {
+                message = MessageResource.Create(messageOptions);
+            }
+            catch (Exception ex)
+            {
+                throw new MessageProcessorApiException($"Error in sending twilio message", MessageProcessor.Twilio, ex);
+            }
 
             SendMessageResult sendMessageResult = new SendMessageResult();
 
@@ -54,6 +67,24 @@ namespace Messages.Provider.Twilio
             }
 
             return sendMessageResult;
+        }
+
+        private void ValidateTwilioParameters(string toPhoneNumber, string fromPhoneNumber, string messageBody)
+        {
+            if (string.IsNullOrWhiteSpace(toPhoneNumber))
+            {
+                throw new ArgumentNullException(nameof(toPhoneNumber), $"To phone number is null or empty.");
+            }
+
+            if (string.IsNullOrWhiteSpace(fromPhoneNumber))
+            {
+                throw new ArgumentNullException(nameof(toPhoneNumber), $"From phone number is not configured.");
+            }
+
+            if (string.IsNullOrWhiteSpace(messageBody))
+            {
+                throw new ArgumentNullException(nameof(messageBody), $"Message body is null or empty.");
+            }
         }
     }
 }
