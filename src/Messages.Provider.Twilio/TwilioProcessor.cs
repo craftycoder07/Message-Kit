@@ -12,18 +12,14 @@ namespace Messages.Provider.Twilio
     internal class TwilioProcessor : IMessageProcessor
     {
         private readonly TwilioOptions _twilioOptions;
-        private readonly MessageResourceFactory _messageResourceFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TwilioProcessor"/> class with the specified Twilio options.
         /// </summary>
         /// <param name="twilioOptions">The Twilio options used for configuration.</param>
-        /// <param name="messageResourceFactory">The logger.</param>
-        public TwilioProcessor(TwilioOptions twilioOptions, MessageResourceFactory messageResourceFactory)
+        public TwilioProcessor(TwilioOptions twilioOptions)
         {
-            _twilioOptions = twilioOptions;
-            _messageResourceFactory = messageResourceFactory;
-
+            _twilioOptions = twilioOptions ?? throw new ArgumentNullException(nameof(twilioOptions), $"Twilio is no configured.");
             TwilioClient.Init(_twilioOptions.AccountSid, _twilioOptions.AuthToken);
         }
 
@@ -42,7 +38,7 @@ namespace Messages.Provider.Twilio
                 Body = messageBody
             };
 
-            MessageResource message = _messageResourceFactory.Create(messageOptions);
+            MessageResource message = MessageResource.Create(messageOptions);
 
             SendMessageResult sendMessageResult = new SendMessageResult();
 

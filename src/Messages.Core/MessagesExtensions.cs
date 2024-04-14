@@ -13,6 +13,11 @@ namespace Messages.Core
         /// <param name="services">The service collection to which message services will be added.</param>
         public static void AddMessageServices(this IServiceCollection services)
         {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services), $"No container found for registering and resolving services.");
+            }
+
             // Adds a singleton instance of MessageProcessorFactory.
             services.AddSingleton<MessageProcessorFactory>();
         }

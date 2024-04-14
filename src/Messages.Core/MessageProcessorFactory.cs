@@ -15,18 +15,27 @@ namespace Messages.Core
         /// <param name="messageProcessorProviders">A collection of message processor providers.</param>
         public MessageProcessorFactory(IEnumerable<IMessageProcessorProvider> messageProcessorProviders)
         {
-            _messageProcessorProviders = messageProcessorProviders ?? throw new ArgumentNullException(nameof(messageProcessorProviders));
+            _messageProcessorProviders = messageProcessorProviders ?? throw new ArgumentNullException(nameof(messageProcessorProviders), $"Please register at least one IMessageProcessorProvider.");
         }
 
         /// <summary>
         /// Creates an instance of a message processor based on the specified message processing provider.
         /// </summary>
         /// <param name="messageProcessor">The message processing provider that determines the type of message processor to create.</param>
-        /// <returns>An instance of <see cref="IMessageProcessor"/> representing the created message processor. Returns null if no matching provider is found.</returns>
+        /// <returns>An instance of <see cref="IMessageProcessor"/> representing the created message processor.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when no suitable IMessageProcessorProvider is found for the provided MessageProcessor.
+        /// </exception>
         public IMessageProcessor? Create(MessageProcessor messageProcessor)
         {
             IMessageProcessorProvider? provider = _messageProcessorProviders.FirstOrDefault(x => x.MessageProcessor == messageProcessor);
-            return provider?.CreateMessageProcessor();
+
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider), $"No MessageProcessorProvider found for {messageProcessor}.");
+            }
+
+            return provider.CreateMessageProcessor();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Messages.Core;
+using Messages.Core.Model;
 
 namespace Messages.Provider.Twilio
 {
@@ -28,9 +29,6 @@ namespace Messages.Provider.Twilio
 
             // Adds a transient instance of TwilioProcessor.
             services.AddTransient<TwilioProcessor>();
-
-            // Adds a transient instance of MessageResourceFactory.
-            services.AddTransient<MessageResourceFactory>();
         }
 
         private static void AddTwilioConfiguration(this IServiceCollection services, IConfiguration configuration)
@@ -40,7 +38,7 @@ namespace Messages.Provider.Twilio
             IConfigurationSection twilioOptionsSection = configuration.GetSection(nameof(TwilioOptions));
             if (twilioOptionsSection == null)
             {
-                throw new InvalidOperationException($"Configuration section '{nameof(TwilioOptions)}' is missing.");
+                throw new ConfigurationNotFoundException($"Configuration section for {MessageProcessor.Twilio} is missing.", MessageProcessor.Twilio);
             }
 
             services.Configure<TwilioOptions>(twilioOptionsSection);

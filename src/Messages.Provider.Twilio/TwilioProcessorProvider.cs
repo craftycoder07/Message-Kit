@@ -22,7 +22,7 @@ namespace Messages.Provider.Twilio
         /// <param name="serviceProvider">The service provider used for dependency injection.</param>
         public TwilioProcessorProvider(IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider), $"No IServiceProvider is registered in DI container.");
         }
 
         /// <summary>
