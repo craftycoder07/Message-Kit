@@ -1,5 +1,6 @@
 using Messages.Core;
 using Messages.Core.Model;
+using Messages.Provider.Twilio;
 
 namespace Messages.Tests.Twilio;
 
@@ -9,15 +10,18 @@ namespace Messages.Tests.Twilio;
 public class TwilioTests
 {
     private readonly MessageProcessorFactory _factory;
+    private readonly TwilioOptions _twilioOptions;
     private readonly MessageProcessor _messageProcessor = MessageProcessor.Twilio;
 
     /// <summary>
     /// Constructor that takes ImessageProcessorFactory
     /// </summary>
     /// <param name="factory"></param>
-    public TwilioTests(MessageProcessorFactory factory)
+    /// <param name="twilioOptions"></param>
+    public TwilioTests(MessageProcessorFactory factory, TwilioOptions twilioOptions)
     {
         _factory = factory;
+        _twilioOptions = twilioOptions;
     }
 
     /// <summary>
@@ -28,10 +32,11 @@ public class TwilioTests
     public void SendSMS_Successful(string toNumber, string messageBody)
     {
         //Arrange
+        string fromNumber = _twilioOptions.PhoneNumber;
         IMessageProcessor? messageProcessor = _factory.Create(_messageProcessor);
 
         //Act
-        SendMessageResult? sendMessageResult = messageProcessor?.SendSMS(toNumber, messageBody);
+        SendMessageResult? sendMessageResult = messageProcessor?.SendSMS(fromNumber, toNumber, messageBody);
 
         //Assert
         Assert.True(sendMessageResult != null && sendMessageResult.IsSuccessful == true);
@@ -48,9 +53,10 @@ public class TwilioTests
     public void SendSMS_UnSuccessful_Incorrect_Parameters(string toNumber, string messageBody)
     {
         //Arrange
+        string fromNumber = _twilioOptions.PhoneNumber;
         IMessageProcessor? messageProcessor = _factory.Create(_messageProcessor);
 
         //Act & Assert
-        Assert.Throws<ArgumentNullException>(() => messageProcessor?.SendSMS(toNumber, messageBody));
+        Assert.Throws<ArgumentNullException>(() => messageProcessor?.SendSMS(fromNumber, toNumber, messageBody));
     }
 }
