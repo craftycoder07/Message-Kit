@@ -26,4 +26,8 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
       - name: Test
+        env:
+          Twilio_TwilioOptions__AccountSid: ${{secrets.TwilioOptions__AccountSid}}
+          Twilio_TwilioOptions__AuthToken: ${{secrets.TwilioOptions__AuthToken}}
+          Twilio_TwilioOptions__PhoneNumber: ${{secrets.TwilioOptions__PhoneNumber}}
         run: dotnet test --no-restore --verbosity normal
