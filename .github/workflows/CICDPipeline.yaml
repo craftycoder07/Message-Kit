@@ -30,4 +30,4 @@ jobs:
           Twilio_TwilioOptions__AccountSid: ${{secrets.TwilioOptions__AccountSid}}
           Twilio_TwilioOptions__AuthToken: ${{secrets.TwilioOptions__AuthToken}}
           Twilio_TwilioOptions__PhoneNumber: ${{secrets.TwilioOptions__PhoneNumber}}
-        run: echo ${{ secrets.TwilioOptions__AccountSid }}
+        run: echo ${{ Twilio_TwilioOptions__AccountSid }}
