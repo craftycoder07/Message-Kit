@@ -25,6 +25,13 @@ jobs:
       - name: Build
         run: dotnet build --no-restore  --configuration Release
 
+      - name: Debug Environment Variables
+        run: |
+          # Don't actually print the secret values, just verify they are not empty
+          if [ -z "${{secrets.TwilioOptions__AccountSid}}" ]; then echo "AccountSid is empty"; fi
+          if [ -z "${{secrets.TwilioOptions__AuthToken}}" ]; then echo "AuthToken is empty"; fi
+          if [ -z "${{secrets.TwilioOptions__PhoneNumber}}" ]; then echo "PhoneNumber is empty"; fi
+
       - name: Test
         env:
           Twilio_TwilioOptions__AccountSid: ${{secrets.TwilioOptions__AccountSid}}
