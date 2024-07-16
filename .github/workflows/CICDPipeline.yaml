@@ -28,13 +28,13 @@ jobs:
       - name: Debug Environment Variables
         run: |
           # Don't actually print the secret values, just verify they are not empty
-          if [ -z "${{secrets.TWILIOOPTIONS__ACCOUNTSID}}" ]; then echo "AccountSid is empty"; fi
-          if [ -z "${{secrets.TWILIOOPTIONS__AUTHTOKEN}}" ]; then echo "AuthToken is empty"; fi
-          if [ -z "${{secrets.TWILIOOPTIONS__PHONENUMBER}}" ]; then echo "PhoneNumber is empty"; fi
+          if [ -z "${{ secrets.TWILIOOPTIONS__ACCOUNTSID }}" ]; then echo "AccountSid is empty"; fi
+          if [ -z "${{ secrets.TWILIOOPTIONS__AUTHTOKEN }}" ]; then echo "AuthToken is empty"; fi
+          if [ -z "${{ secrets.TWILIOOPTIONS__PHONENUMBER }}" ]; then echo "PhoneNumber is empty"; fi
 
       - name: Test
         env:
-          Twilio_TwilioOptions__AccountSid: ${{secrets.TWILIOOPTIONS__ACCOUNTSID}}
-          Twilio_TwilioOptions__AuthToken: ${{secrets.TWILIOOPTIONS__AUTHTOKEN}}
-          Twilio_TwilioOptions__PhoneNumber: ${{secrets.TWILIOOPTIONS__PHONENUMBER}}
+          Twilio_TwilioOptions__AccountSid: ${{ secrets.TWILIOOPTIONS__ACCOUNTSID }}
+          Twilio_TwilioOptions__AuthToken: ${{ secrets.TWILIOOPTIONS__AUTHTOKEN }}
+          Twilio_TwilioOptions__PhoneNumber: ${{ secrets.TWILIOOPTIONS__PHONENUMBER }}
         run: dotnet test --no-restore --verbosity normal
