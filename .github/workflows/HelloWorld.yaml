@@ -6,7 +6,17 @@ on:
 jobs:
   hello:
     runs-on: ubuntu-latest
+
+    environment: Production # Reference the 'Production' environment
+    
     steps:
       - name: echo hello world
         run: echo "Hello World"
         shell: bash
+
+      - name: Debug Environment Variables
+        run: |
+          # Verify they are not empty
+          if [ -z "${{ secrets.TwilioOptions__AccountSid }}" ]; then echo "AccountSid is empty"; fi
+          if [ -z "${{ secrets.TwilioOptions__AuthToken }}" ]; then echo "AuthToken is empty"; fi
+          if [ -z "${{ secrets.TwilioOptions__PhoneNumber }}" ]; then echo "PhoneNumber is empty"; fi
