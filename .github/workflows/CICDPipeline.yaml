@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    environment: Production # Reference the 'Production' environment
+    #environment: Production # Reference the 'Production' environment
 
     steps:
       - name: Checkout Code
@@ -39,4 +39,4 @@ jobs:
           Twilio_TwilioOptions__AccountSid: ${{ secrets.TWILIOOPTIONS__ACCOUNTSID }}
           Twilio_TwilioOptions__AuthToken: ${{ secrets.TWILIOOPTIONS__AUTHTOKEN }}
           Twilio_TwilioOptions__PhoneNumber: ${{ secrets.TWILIOOPTIONS__PHONENUMBER }}
-        run: dotnet test --no-restore --verbosity normal
+        run: dotnet test --no-restore --verbosity detailed
